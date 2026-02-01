@@ -1,0 +1,5 @@
+train: C:\Users\ZAH\Pictures\CV_HACKATHON_AIRLINES\Hack\hackathon2_train_3\train_3\train3\images
+val: C:\Users\ZAH\Pictures\CV_HACKATHON_AIRLINES\Hack\hackathon2_train_3\train_3\val3\images
+test: C:\Users\ZAH\Pictures\CV_HACKATHON_AIRLINES\Hack\hackathon2_test3\test3\images
+nc: 7
+names: ['OxygenTank', 'NitrogenTank', 'FirstAidBox', 'FireAlarm', 'SafetySwitchPanel', 'EmergencyPhone', 'FireExtinguisher']                                         
