@@ -1,32 +1,30 @@
-<div align="center">
-  
-  <img src="demo.gif" alt="Safety Detection Live Demo" width="800">
-  
-  # 🚀 AI-Powered Safety Equipment Detection
-  **High-Precision Instance Segmentation & Object Detection in Cluttered Environments**
+# 🚀 AI-Powered Safety Equipment Detection
+**High-Precision Instance Segmentation & Object Detection in Cluttered Environments**
 
-  <p>
-    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-    <img src="https://img.shields.io/badge/YOLOv8-00FFFF?style=for-the-badge&logo=YOLO&logoColor=black" alt="YOLOv8">
-    <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
-  </p>
-</div>
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/YOLOv8-00FFFF?style=for-the-badge&logo=YOLO&logoColor=black" alt="YOLOv8">
+  <img src="https://img.shields.io/badge/Computer%20Vision-FF6F00?style=for-the-badge" alt="CV">
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
+</p>
 
 ---
 
-### 👁️ Visual Results & Detections
-
-| Environment | Model Detection Confidence |
-| :---: | :---: |
-| <img src="00000003_vcluttered_room.png" width="400" alt="Dark Cluttered"> | <img src="00000002_vlight_cluttered.png" width="400" alt="Detected"> |
-| *Heavy Occlusion (First Aid Box)* | *High Confidence Detection (0.8+)* |
-| <img src="008000001_vcluttered_hallway.png" width="400" alt="Hallway"> | <img src="000000001_vlight_undcluttered.png" width="400" alt="Detected"> |
-| *Complex Angles (Oxygen Tanks)* | *Precision Bonding Boxes* |
+### 🧠 Project Overview
+An advanced instance segmentation and object detection model built to identify critical safety equipment (Fire Extinguishers, Medical Kits, Oxygen Tanks, etc.) in highly cluttered, dynamic environments. Developed during a competitive Computer Vision Hackathon, this project leverages a heavily optimized **YOLOv8 Large** architecture to process varying lighting conditions, severe occlusion, and domain shifts.
 
 ---
 
-### 🧠 Inference Pipeline (How it Works)
-The system doesn't just pass images to a model. It dynamically adjusts resolution and utilizes Test Time Augmentation (TTA) to handle extreme domain shifts and lighting changes.
+### 📊 Performance Metrics
+* **Best Val mAP@0.5:** `0.883`
+* **Final Test mAP@0.5:** `0.7871`
+* **Final Test mAP@0.5-0.95:** `0.6984`
+* **Strongest Detections:** First Aid Boxes & Oxygen Tanks.
+
+---
+
+### ⚙️ Inference Pipeline (Architecture)
+The system dynamically adjusts resolution and utilizes Test Time Augmentation (TTA) to handle extreme domain shifts and lighting changes.
 
 ```mermaid
 graph LR
@@ -37,19 +35,17 @@ graph LR
     D --> F[Confidence Filter]
     E --> F
     F --> G((Final Output Map))
-    
-    style C fill:#00FFFF,stroke:#000,stroke-width:2px,color:#000
 ```
 
 ---
 
-### 📊 Performance Metrics & Engineering
+### 🛠️ Advanced ML Engineering & Optimizations
 
-Standard out-of-the-box training failed on small objects like distant fire alarms. To hit our **`0.7871` Test mAP@0.5**, we engineered the following solutions:
+To achieve high precision, standard out-of-the-box training was insufficient. The following engineering solutions were implemented:
 
-* 🎯 **Resolution Scaling:** Pushed inputs to `1024px` to capture micro-features, boosting small-object mAP by ~15%.
-* 🌓 **Test Time Augmentation (TTA):** Processed images at multiple scales and flips during inference to counteract dim cabin lighting and weird camera angles.
-* 📦 **Agnostic NMS:** Overrode standard suppression to ensure overlapping boxes of *different* classes (e.g., a Med Kit on a Chair) weren't accidentally deleted.
+* 🎯 **Resolution Scaling:** Pushed inputs to `1024px` to capture micro-features (like distant fire alarms), boosting small-object mAP by ~15%.
+* 🌓 **Test Time Augmentation (TTA):** Processed images at multiple scales and flips during inference to counteract dim lighting and extreme camera angles.
+* 📦 **Agnostic NMS:** Overrode standard Non-Maximum Suppression to ensure overlapping boxes of *different* classes (e.g., a Med Kit on a Chair) weren't accidentally deleted.
 * 📉 **Cosine Annealing:** Dropped the learning rate aggressively in the final 5 epochs (`cos_lr=True`) to settle into a sharper local minimum.
 
 ---
@@ -63,7 +59,7 @@ cd CV_HACKATHON_AIRLINES
 pip install ultralytics torch torchvision
 ```
 
-**2. Run the Visualizer (Live Demo):**
+**2. Run Inference:**
 ```bash
 yolo task=detect mode=predict model=weights/best.pt source=your_test_video.mp4 conf=0.20 agnostic_nms=True augment=True
 ```
